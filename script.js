@@ -1,4 +1,5 @@
 //global variable of searchedCity;
+var searchedCity = document.getElementById("search-value")
 // array of searched cities 
 
 
