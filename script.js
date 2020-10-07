@@ -1,7 +1,7 @@
 //global variable of searchedCity;
 
 // array of searched cities 
-var searchedCity = "";
+
 var cityArr = [];
 
 // creating a button for the cities that are searched for
@@ -10,22 +10,24 @@ function createButton(searchedCity) {
  $("#city-buttons").append(cityButton);
  //i need to add click listener function for the search button
  //this will trigger my text value to be stored in a variable
- //
+}//
  $("#search-button").on("click", function (e) {
   e.preventDefault();
-  searchedCity = $("#search-value").val();
+  var searchedCity = $("#search-value").val();
+  console.log(searchedCity)
   cityArr.unshift(searchedCity);
-  citySearch();
+  citySearch(searchedCity);
+  getForecast(searchedCity)
   createButton(searchedCity);
   
  })
- //ask tyler why this wont console log or create button
-}
+ 
+
 
 
 //creating funtion to call city info
-function citySearch() {
- searchedCity = $("#search-value").val();
+function citySearch(city) {
+ 
  var queryURL =
   "http://api.openweathermap.org/data/2.5/weather?q=" +
   city +
@@ -36,17 +38,38 @@ function citySearch() {
    method: "GET",
 
    //saving to local storage
-   success: function(){
+    success: function(response){
     localStorage.setItem("history", JSON.stringify(cityArr))
+     console.log(response)
+     getUvInd(response.coord.lat, response.coord.lon)
+     //this is where the logic goes to set it to the page
    }
-   //
-
   })
- }
-// $("ul").on("click", "li", function(e){
-//  e.preventDefault();
-//  $(this).addClass("showCity")
 
+ }
+ //grabbing the api info for the city
+function getForecast(city) {
+ $.ajax({
+  url: "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=483b31400bcaf50500277fbb33164efa&units=imperial",
+  method: "GET",
+  success: function(response){
+   ///loop through array and append to card 
+   //add id to cards with numbers that matched the looped index number
+   //var threeDayForward = new moment().add(3, 'day'); (5 of these that add 3 days)
+  }
+ })
+}
+//inserting lat+lon to get the city UV information
+function getUvInd (lat, lon){
+ $.ajax({
+  url: "http://api.openweathermap.org/data/2.5/uvi?appid=483b31400bcaf50500277fbb33164efa&lat=" + lat + "&lon=" + lon,
+  method: "GET",
+  success: function(response){
+   //response.value
+   console.log(response)
+  }
+ })
+}
 // })
 
 // search weather function
