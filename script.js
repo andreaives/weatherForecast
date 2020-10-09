@@ -6,69 +6,92 @@ var cityArr = [];
 
 // creating a button for the cities that are searched for
 function createButton(searchedCity) {
- var cityButton = $("<button>").text(searchedCity);
- $("#city-buttons").append(cityButton);
- //i need to add click listener function for the search button
- //this will trigger my text value to be stored in a variable
+  var cityButton = $("<button>").text(searchedCity);
+  $("#city-buttons").append(cityButton);
+  //i need to add click listener function for the search button
+  //this will trigger my text value to be stored in a variable
 }//
- $("#search-button").on("click", function (e) {
+$("#search-button").on("click", function (e) {
   e.preventDefault();
   var searchedCity = $("#search-value").val();
   console.log(searchedCity)
+
+  // console.log(response.main.name)
+
+
+
+
+
+
   cityArr.unshift(searchedCity);
-  citySearch(searchedCity);
-  getForecast(searchedCity)
+  todaysForecast(searchedCity);
+  weekForecast(searchedCity)
   createButton(searchedCity);
-  
- })
- 
+
+})
+
 
 
 
 //creating funtion to call city info
-function citySearch(city) {
- 
- var queryURL =
-  "http://api.openweathermap.org/data/2.5/weather?q=" +
-  city +
-  "&appid=483b31400bcaf50500277fbb33164efa";
-  
+function todaysForecast(city) {
+
+  var queryURL =
+    "https://api.openweathermap.org/data/2.5/weather?q=" +
+    city +
+    "&appid=483b31400bcaf50500277fbb33164efa";
+
   $.ajax({
-   url: queryURL,
-   method: "GET",
+    url: queryURL,
+    method: "GET",
 
-   //saving to local storage
-    success: function(response){
+    //saving to local storage
+  }).then(function (response) {
     localStorage.setItem("history", JSON.stringify(cityArr))
-     console.log(response)
-     getUvInd(response.coord.lat, response.coord.lon)
-     //this is where the logic goes to set it to the page
-   }
-  })
+    console.log(response)
+    getUvInd(response.coord.lat, response.coord.lon)
+    //get info for fist day
+    var name = (response.name);
+    var temp = (response.main.temp)
+    var tempF = parseInt((temp - 273.15) * 1.80 + 32);
+    var wind =(response.wind.speed)
+    var icon=(response.weather[0].icon)
+    console.log(name)
+    // var img = $("<img />",{
+    
+    // src: "https://openweathermap.org/img/2.5/forecast?lat=" + icon +"2@.png",
+    // alt: "icon indicating weather for the day"
+    // });
+    // //appending the image to the page
+    // img.append($(".icon"));
 
- }
- //grabbing the api info for the city
-function getForecast(city) {
- $.ajax({
-  url: "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=483b31400bcaf50500277fbb33164efa&units=imperial",
-  method: "GET",
-  success: function(response){
-   ///loop through array and append to card 
-   //add id to cards with numbers that matched the looped index number
-   //var threeDayForward = new moment().add(3, 'day'); (5 of these that add 3 days)
-  }
- })
+    
+  });
+  
+  $("div#city-name").text("Today in" + name + "the weather is:").text
+}
+//grabbing the api info for the city
+function weekForecast(city) {
+  $.ajax({
+    url: "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=483b31400bcaf50500277fbb33164efa&units=imperial",
+    method: "GET",
+    success: function (response) {
+      ///loop through array and append to card 
+      //add id to cards with numbers that matched the looped index number
+      //var threeDayForward = new moment().add(3, 'day'); (5 of these that add 3 days)
+    }
+  })
 }
 //inserting lat+lon to get the city UV information
-function getUvInd (lat, lon){
- $.ajax({
-  url: "http://api.openweathermap.org/data/2.5/uvi?appid=483b31400bcaf50500277fbb33164efa&lat=" + lat + "&lon=" + lon,
-  method: "GET",
-  success: function(response){
-   //response.value
-   console.log(response)
-  }
- })
+function getUvInd(lat, lon) {
+  $.ajax({
+    url: "https://api.openweathermap.org/data/2.5/uvi?appid=483b31400bcaf50500277fbb33164efa&lat=" + lat + "&lon=" + lon,
+    method: "GET",
+    success: function (response) {
+      //response.value
+      console.log(response)
+    }
+  })
 }
 // })
 
