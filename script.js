@@ -1,7 +1,7 @@
 //global variable of searchedCity;
 
 // array of searched cities 
-
+$(document).ready(function () {
 var cityArr = [];
 
 // creating a button for the cities that are searched for
@@ -16,13 +16,8 @@ $("#search-button").on("click", function (e) {
   var searchedCity = $("#search-value").val();
   console.log(searchedCity)
 
-  // console.log(response.main.name)
-
-
-
-
-
-
+ //calling the functions
+ //placing the searched cit first in the cityArr
   cityArr.unshift(searchedCity);
   todaysForecast(searchedCity);
   weekForecast(searchedCity)
@@ -47,16 +42,26 @@ function todaysForecast(city) {
 
     //saving to local storage
   }).then(function (response) {
-    localStorage.setItem("history", JSON.stringify(cityArr))
-    console.log(response)
-    getUvInd(response.coord.lat, response.coord.lon)
+    localStorage.setItem("history", JSON.stringify(cityArr));
+    console.log(response);
+    getUvInd(response.coord.lat, response.coord.lon);
     //get info for fist day
     var name = (response.name);
-    var temp = (response.main.temp)
+    console.log("name")
+    $(".city-name").text(name)
+    
+    var temp = (response.main.temp);
     var tempF = parseInt((temp - 273.15) * 1.80 + 32);
+    
+    var humidity = (response.main.humidity)
     var wind =(response.wind.speed)
+    $(".temp").text("Temperature: " + tempF)
+    $(".humidity").text("The humidity is: " + humidity)
+    $(".wind").text("Wind Speed: " + wind)
+
     var icon=(response.weather[0].icon)
-    console.log(name)
+  
+    
     // var img = $("<img />",{
     
     // src: "https://openweathermap.org/img/2.5/forecast?lat=" + icon +"2@.png",
@@ -64,11 +69,10 @@ function todaysForecast(city) {
     // });
     // //appending the image to the page
     // img.append($(".icon"));
-
+    
     
   });
-  
-  $("div#city-name").text("Today in" + name + "the weather is:").text
+ 
 }
 //grabbing the api info for the city
 function weekForecast(city) {
@@ -93,6 +97,7 @@ function getUvInd(lat, lon) {
     }
   })
 }
+})
 // })
 
 // search weather function
