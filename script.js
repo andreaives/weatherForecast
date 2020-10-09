@@ -104,6 +104,39 @@ $(document).ready(function () {
     // //appending the image to the page
     // img.appendTo($("#day1"));
 
+    //day 2
+    console.log(response.list[14])
+      var dtTxt2 = (response.list[14].dt_txt)
+      var date2 = dtTxt2.slice(5, 10);
+      $("#day2").append("Date " + date2)
+      var tempK2 = (response.list[14].main.temp)
+      $("<div>").addClass("temp2").text("Temp: " + tempK2 + "F").appendTo($("#day2"))
+      var humid2 = (response.list[14].main.humidity)
+      $("<div>").addClass("humid2").text("Humidity: " + humid2 + "%").appendTo($("#day2"))
+      //day 3
+      var dtTxt3 = (response.list[22].dt_txt)
+      var date3 = dtTxt3.slice(5, 10);
+      $("#day3").append("Date " + date3)
+      var tempK3 = (response.list[22].main.temp)
+      $("<div>").addClass("temp3").text("Temp: " + tempK3 + "F").appendTo($("#day3"))
+      var humid3 = (response.list[22].main.humidity)
+      $("<div>").addClass("humid3").text("Humidity: " + humid3 + "%").appendTo($("#day3"))
+      //day 4
+      var dtTxt4 = (response.list[30].dt_txt)
+      var date4 = dtTxt4.slice(5, 10);
+      $("#day4").append("Date " + date4)
+      var tempK4 = (response.list[30].main.temp)
+      $("<div>").addClass("temp4").text("Temp: " + tempK4 + "F").appendTo($("#day4"))
+      var humid4 = (response.list[30].main.humidity)
+      $("<div>").addClass("humid4").text("Humidity: " + humid4 + "%").appendTo($("#day4"))
+      //day 5
+      var dtTxt5 = (response.list[38].dt_txt)
+      var date5 = dtTxt5.slice(5, 10);
+      $("#day5").append("Date " + date5)
+      var tempK5 = (response.list[38].main.temp)
+      $("<div>").addClass("temp5").text("Temp: " + tempK5 + "F").appendTo($("#day5"))
+      var humid5 = (response.list[38].main.humidity)
+      $("<div>").addClass("humid5").text("Humidity: " + humid5 + "%").appendTo($("#day5"))
 
 
 
